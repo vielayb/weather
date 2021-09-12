@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/style.css"/>
+    <title>Document</title>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <header>
+        <div id="title-div">
+            <h1>Weather Dashboard</h1>
+        </div>
+    </header>
+    <main>
+        <section id="left-align">
+        <section>
+            <form id="city-form">
+                <label for="city-name"><span id="city-title">Search For City</span></label><br>
+                <input type="text" name="city-name" placeholder="Enter Your City">
+                <button id="save-city" type="submit">Submit</button>
+            </form>
+
+            <div class="major-cities">
+                <button>Austin</button>
+                <button>Chicago</button>
+                <button>New York</button>
+                <button>Orlando</button>
+                <button>San Francisco</button>
+                <button>Seattle</button>
+                <button>Denver</button>
+                <button>Atlanta</button>
+            </div>
+        </section>
+
+
+        <div id="bottom-container">
+            <div id="city-displayed">
+                <div>
+                    <h2>Weather Of The Day</h2>
+                     <div id="response-container"></div>
+                </div>
+            </div>
+            <h3>5-Day Forecast</h3>
+            <section id="future-forecast">
+                <div class="future-box">
+                    <h4>Date</h4>
+                    <p class="temp">Temp:</p>
+                    <p class="wind">Wind:</p>
+                    <p class="humid">Humidity:</p>
+                </div>
+                <div class="future-box">
+                    <h4>Date</h4>
+                    <p class="temp">Temp:</p>
+                    <p class="wind">Wind:</p>
+                    <p class="humid">Humidity:</p>
+                </div>
+                <div class="future-box">
+                    <h4>Date</h4>
+                    <p class="temp">Temp:</p>
+                    <p class="wind">Wind:</p>
+                    <p class="humid">Humidity:</p>
+                </div>
+                <div class="future-box">
+                    <h4>Date</h4>
+                    <p class="temp">Temp:</p>
+                    <p class="wind">Wind:</p>
+                    <p class="humid">Humidity:</p>
+                </div>
+                <div class="future-box">
+                    <h4>Date</h4>
+                    <p class="temp">Temp:</p>
+                    <p class="wind">Wind:</p>
+                    <p class="humid">Humidity:</p>
+                </div>
+            </section>
+        </div>
+       
+    </section>
+   
+    </main>
+
+    <script src="./assets/js/script.js"></script>
+</body>
+</html>
