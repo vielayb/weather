@@ -16,6 +16,10 @@ body {
       color: white;
   }
 
+  #city-date h4 {
+    padding-bottom: 30px;
+  }
+
 #title-div {
     display: flex;
     background-color: goldenrod;
@@ -54,7 +58,9 @@ input {
     margin-top: 30px;
 }
 
-.major-cities > button {
+.recent-city-button {
+    text-align: center;
+    padding-top: 7px;
     margin: 10px;
     height: 30px;
     background-color: rgb(147, 204, 235);
@@ -106,6 +112,7 @@ h3{
 
 .future-box h4{
     margin-top: 20px;
+    margin-bottom: 30px;
     margin-left: 20px;
     color: white;
     font-size: 18px;
@@ -115,6 +122,10 @@ h3{
     color: white;
     margin-top: 10px;
     margin-left: 35px;
+}
+
+#response-container p {
+    padding-bottom: 10px;
 }
 
 /* .temp{
