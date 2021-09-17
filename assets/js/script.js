@@ -1,7 +1,6 @@
 var formEl = document.querySelector("#city-form");
 // var buttonEl = document.querySelector("#save-city");
 var recentCityEl = document.querySelector("#recent-city");
-var bottomContainer = document.querySelector("#bottom-container");
 
 var savedCity = function(event) {
     event.preventDefault();
@@ -23,43 +22,28 @@ var savedCity = function(event) {
     getCoord(cityDataObj);
 
 };
+var renderWeather = function(name){
+    console.log("here");
 
-var getCoord = function(cityDataObj){
-            // getting city name
-    fetch(
-        "https://api.openweathermap.org/data/2.5/weather?q=" + cityDataObj.name + ",us&units=imperial&appid=34e6c376566828dda54a93facae88917"
-     )
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(weather) {
-
-        var lat = weather.coord.lat;
-        var lon = weather.coord.lon;
-
-        return fetch(
-            "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=34e6c376566828dda54a93facae88917"
-        )
-            .then(function(response) {
-            return response.json();
-            })
-            .then(function(forecastWeather) {
-                console.log(forecastWeather.daily);
+    var forecastWeather = JSON.parse(window.localStorage.getItem("cities"))[name];
+    console.log(forecastWeather);
 
                 // function to using moments js to convert unix into date format
                 var date = forecastWeather.daily[0].dt;
                 var day = moment.unix(date).utc();
-                var cityNameDisplay = cityDataObj.name
+                var cityNameDisplay = name
 
                 var citydateDisplay = document.querySelector('#city-date');
+                citydateDisplay.innerHTML = '';
+
 
                 var dateDisplay = document.createElement("h4");
-                dateDisplay.innerHTML = "";
                 dateDisplay.innerHTML = moment(day).format("L");
 
+
                 var cityDisplay = document.createElement("h2");
-                cityDisplay.innerHTML = "";
                 cityDisplay.innerHTML = cityNameDisplay;
+
 
                 citydateDisplay.appendChild(cityDisplay);
                 citydateDisplay.appendChild(dateDisplay);
@@ -72,6 +56,7 @@ var getCoord = function(cityDataObj){
                 var theWind = forecastWeather.current.wind_speed;
             
                 var responseContainerEl = document.querySelector('#response-container');
+                responseContainerEl.innerHTML = '';
 
                 var tempDisplay = document.createElement("p");
                 tempDisplay.innerHTML = "Temp: " + theTemp +"\u00B0"+"F";
@@ -99,6 +84,7 @@ var getCoord = function(cityDataObj){
                 var day1 = moment.unix(displayDate1).utc();
 
                 var forecastDisplay1 = document.querySelector("#forecast-1");
+                forecastDisplay1.innerHTML = '';
 
                 var date1Display = document.createElement("h4");
                 date1Display.innerHTML = moment(day1).format("L"); 
@@ -129,6 +115,7 @@ var getCoord = function(cityDataObj){
                 var day2 = moment.unix(displayDate2).utc();
 
                 var forecastDisplay2 = document.querySelector("#forecast-2");
+                forecastDisplay2.innerHTML = '';
 
                 var date2Display = document.createElement("h4");
                 date2Display.innerHTML = moment(day2).format("L"); 
@@ -159,6 +146,7 @@ var getCoord = function(cityDataObj){
                 var day3 = moment.unix(displayDate3).utc();
 
                 var forecastDisplay3 = document.querySelector("#forecast-3");
+                forecastDisplay3.innerHTML = '';
 
                 var date3Display = document.createElement("h4");
                 date3Display.innerHTML = moment(day3).format("L"); 
@@ -189,6 +177,7 @@ var getCoord = function(cityDataObj){
                 var day4 = moment.unix(displayDate4).utc();
 
                 var forecastDisplay4 = document.querySelector("#forecast-4");
+                forecastDisplay4.innerHTML = '';
 
                 var date4Display = document.createElement("h4");
                 date4Display.innerHTML = moment(day4).format("L"); 
@@ -219,6 +208,7 @@ var getCoord = function(cityDataObj){
                 var day5 = moment.unix(displayDate5).utc();
 
                 var forecastDisplay5 = document.querySelector("#forecast-5");
+                forecastDisplay5.innerHTML = '';
 
                 var date5Display = document.createElement("h4");
                 date5Display.innerHTML = moment(day5).format("L"); 
@@ -240,23 +230,69 @@ var getCoord = function(cityDataObj){
                 forecastDisplay5.appendChild(wind5Display);
                 forecastDisplay5.appendChild(humid5Display);
                 //Forecast Day 5 End
+}
+var getCoord = function(cityDataObj){
+            // getting city name
+    fetch(
+        "https://api.openweathermap.org/data/2.5/weather?q=" + cityDataObj.name + ",us&units=imperial&appid=34e6c376566828dda54a93facae88917"
+     )
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(weather) {
+
+        var lat = weather.coord.lat;
+        var lon = weather.coord.lon;
+
+        return fetch(
+            "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=34e6c376566828dda54a93facae88917"
+        )
+            .then(function(response) {
+            return response.json();
+            })
+            .then(function(forecastWeather) {
+                console.log(forecastWeather.daily);
+                    // localCities.(cityDataObj.name)
+
+                    localCities[cityDataObj.name] = forecastWeather
+                    console.log("local cities");
+                    console.log(localCities);
+                    window.localStorage.setItem("cities", JSON.stringify(localCities));
+
+                console.log(cityDataObj);
+                renderWeather(cityDataObj.name);
+
              })
-            
-        });
         
+        });
+
 }
 //Left side buttons of recent searched cities
 var postCity = function(cityDataObj){
 
     var recentlySavedCity = document.createElement("li");
     recentlySavedCity.className = "recent-city-button";
+    recentlySavedCity.setAttribute("data-cityName", cityDataObj.name)
+    recentlySavedCity.addEventListener("click", function(){
+        renderWeather(recentlySavedCity.getAttribute("data-cityName"))
+    })
     recentlySavedCity.textContent = cityDataObj.name;
     recentCityEl.appendChild(recentlySavedCity);
 
 };
 
-// var savedSearches = function(){
-//     localStorage.setItem("postCity", JSON.stringify(postCity));
-// }
+var renderButtons = function(){
+    for (var city in localCities) {
+        postCity({name:city});
+    }
+}
+var localCities = JSON.parse(window.localStorage.getItem("cities"));
+if (localCities === null){
+    localCities = {
 
+    }
+    window.localStorage.setItem("cities", JSON.stringify({}))
+}else{
+    renderButtons();
+}
 formEl.addEventListener("submit", savedCity);
